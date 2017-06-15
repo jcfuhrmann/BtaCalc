@@ -31,7 +31,7 @@ public class BtaCalc {
         
         // setup file names
         logfile = sport + "\\log.txt";
-        String teams = sport + "\\teams.txt";
+        String teams = ".\\src\\" + sport + "\\teams.txt";
         String scores = sport + "\\scores.txt";
         String results = sport + "\\results.txt";
         
@@ -40,8 +40,9 @@ public class BtaCalc {
         Map<String, Team> sNames = new HashMap<>();
         try {
             input = new Scanner(new BufferedReader(new FileReader(teams)));
-            while (input.hasNext()) {
+            while (input.hasNextLine()) {
                 String nextTeam = input.nextLine();
+                if (nextTeam.equals("")) continue;
                 String[] teamData = nextTeam.split(",");
                 String name = teamData[0];
                 String nickName = teamData[1];
@@ -55,6 +56,9 @@ public class BtaCalc {
                 lNames.put(name, new Team(name, nickName, shortName, conference, division));
                 sNames.put(shortName, new Team(name, nickName, shortName, conference, division));
             }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
         finally {
             input.close();
